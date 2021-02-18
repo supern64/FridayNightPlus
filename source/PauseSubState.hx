@@ -14,10 +14,12 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Charting Menu', 'Toggle Fullscreen', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
+
+	var past:Float;
 
 	public function new(x:Float, y:Float)
 	{
@@ -57,6 +59,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
+		past += elapsed;
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
@@ -69,7 +72,6 @@ class PauseSubState extends MusicBeatSubstate
 		{
 			changeSelection(1);
 		}
-
 		if (accepted)
 		{
 			var daSelected:String = menuItems[curSelected];
@@ -80,15 +82,17 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "Restart Song":
 					FlxG.resetState();
+				case "Charting Menu":
+					FlxG.switchState(new ChartingState());
+				case "Toggle Fullscreen":
+					FlxG.fullscreen = !FlxG.fullscreen;
 				case "Exit to menu":
 					FlxG.switchState(new MainMenuState());
 			}
 		}
-
-		if (FlxG.keys.justPressed.J)
+		if (controls.PAUSE && past > 0.2)
 		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
+			close();
 		}
 	}
 

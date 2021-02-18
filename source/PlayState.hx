@@ -113,6 +113,8 @@ class PlayState extends MusicBeatState
 	var songScore:Int = 0;
 	var scoreTxt:FlxText;
 
+	var flags:Map<String, String> = CoolUtil.loadGameFlag();
+
 	public static var campaignScore:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
@@ -1263,9 +1265,9 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		scoreTxt.text = (flags["noHurt"] == "true" ? "NoHurt, Score: " + songScore : "Score: " + songScore);
 
-		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -1543,7 +1545,8 @@ class PlayState extends MusicBeatState
 
 				if (daNote.y < -daNote.height)
 				{
-					if (daNote.tooLate || !daNote.wasGoodHit)
+					var noHurt:Bool = (flags["noHurt"] == "true" ? true : false);
+					if ((daNote.tooLate || !daNote.wasGoodHit) && !noHurt)
 					{
 						health -= 0.0475;
 						vocals.volume = 0;
@@ -2000,7 +2003,10 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
-			health -= 0.04;
+			var noHurt:Bool = (flags["noHurt"] == "true" ? true : false);
+			if (!noHurt) {
+				health -= 0.04;
+			}
 			if (combo > 5)
 			{
 				gf.playAnim('sad');

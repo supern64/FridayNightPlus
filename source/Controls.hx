@@ -475,7 +475,7 @@ class Controls extends FlxActionSet
 		for (key in keys)
 			action.addKey(key, state);
 	}
-
+	
 	static function removeKeys(action:FlxActionDigital, keys:Array<FlxKey>)
 	{
 		var i = action.inputs.length;
@@ -506,6 +506,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
 				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 				inline bindKeys(Control.RESET, [R]);
+				inline bindKeys(Control.CHEAT, [C]);
 			case Duo(true):
 				inline bindKeys(Control.UP, [W]);
 				inline bindKeys(Control.DOWN, [S]);

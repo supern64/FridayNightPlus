@@ -164,7 +164,7 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = "PERSONAL BEST: " + lerpScore;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -220,21 +220,16 @@ class FreeplayState extends MusicBeatState
 		switch (curDifficulty)
 		{
 			case 0:
-				diffText.text = "EASY";
+				diffText.text = "DIFFICULTY: EASY";
 			case 1:
-				diffText.text = 'NORMAL';
+				diffText.text = 'DIFFICULTY: NORMAL';
 			case 2:
-				diffText.text = "HARD";
+				diffText.text = "DIFFICULTY: HARD";
 		}
 	}
 
 	function changeSelection(change:Int = 0)
 	{
-		#if !switch
-		NGio.logEvent('Fresh');
-		#end
-
-		// NGio.logEvent('Fresh');
 		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
 
 		curSelected += change;

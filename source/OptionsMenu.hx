@@ -11,20 +11,26 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import sys.io.File;
+import extype.OrderedMap;
 
 class OptionsMenu extends MusicBeatState
 {
 	var selector:FlxText;
 	var curSelected:Int = 0;
+	var past:Float = 0;
 
-	var controlsStrings:Array<String> = [];
+	var controlMap:OrderedMap<String, String> = new OrderedMap<String, String>();
+	var controlOrder:Array<String> = [];
+
+	var selected:Bool = false;
+	var options:Array<String>;
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
 
 	override function create()
 	{
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
-		controlsStrings = CoolUtil.coolTextFile('assets/data/controls.txt');
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -35,16 +41,15 @@ class OptionsMenu extends MusicBeatState
 		grpControls = new FlxTypedGroup<Alphabet>();
 		add(grpControls);
 
-		for (i in 0...controlsStrings.length)
-		{
-			if (controlsStrings[i].indexOf('set') != -1)
-			{
-				var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlsStrings[i].substring(3) + ': ' + controlsStrings[i + 1], true, false);
-				controlLabel.isMenuItem = true;
-				controlLabel.targetY = i;
-				grpControls.add(controlLabel);
-			}
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+		options = ["controls", "video", "go back"];
+
+		var y:Int = 0;
+		for (i in options) {
+			var controlLabel:Alphabet = new Alphabet(0, (70 * y) + 30, i, true, false);
+			controlLabel.isMenuItem = true;
+			controlLabel.targetY = y;
+			grpControls.add(controlLabel);
+			y++;
 		}
 
 		super.create();
@@ -53,50 +58,37 @@ class OptionsMenu extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		past += elapsed;
 
-		if (controls.ACCEPT)
-		{
-			changeBinding();
-		}
-
-		if (isSettingControl)
-			waitingInput();
-		else
-		{
-			if (controls.BACK)
+		if (!selected) {
+			if (controls.ACCEPT) {
+				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
+				var daChoice:String = options[curSelected];
+				switch (daChoice)
+				{
+					case 'controls':
+						FlxG.switchState(new ControlsMenu());
+					case 'video':
+						FlxG.switchState(new VideoMenu());
+					case 'go back':
+						FlxG.switchState(new MainMenuState());
+				}
+			}
+				
+			if (controls.BACK) {
 				FlxG.switchState(new MainMenuState());
-			if (controls.UP_P)
+			}	
+			if (controls.UP_P) {
 				changeSelection(-1);
-			if (controls.DOWN_P)
+			}
+			if (controls.DOWN_P) {
 				changeSelection(1);
+			}
 		}
 	}
-
-	function waitingInput():Void
-	{
-		if (FlxG.keys.getIsDown().length > 0)
-		{
-			PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-		}
-		// PlayerSettings.player1.controls.replaceBinding(Control)
-	}
-
-	var isSettingControl:Bool = false;
-
-	function changeBinding():Void
-	{
-		if (!isSettingControl)
-		{
-			isSettingControl = true;
-		}
-	}
-
+	
 	function changeSelection(change:Int = 0)
 	{
-		#if !switch
-		NGio.logEvent('Fresh');
-		#end
-
 		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
 
 		curSelected += change;
@@ -106,8 +98,6 @@ class OptionsMenu extends MusicBeatState
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
 
-		// selector.y = (70 * curSelected) + 30;
-
 		var bullShit:Int = 0;
 
 		for (item in grpControls.members)
@@ -116,12 +106,9 @@ class OptionsMenu extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}

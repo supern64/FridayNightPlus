@@ -11,6 +11,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
@@ -20,6 +21,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import extype.OrderedMap;
 import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
@@ -196,6 +198,15 @@ class TitleState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
+		var controlMap:OrderedMap<String, String> = CoolUtil.cMapFromSArray(CoolUtil.coolTextFile('assets/data/controls.txt'));
+		var defaultControls:OrderedMap<String, String> = CoolUtil.cMapFromSArray(CoolUtil.coolTextFile('assets/data/controls-default.txt'));
+		for (ctrl => bind in controlMap)
+		{
+			var bindDefault:String = defaultControls.get(ctrl);
+			trace("Replacing control " + ctrl + " from " + bindDefault + " to " + bind);
+			PlayerSettings.player1.controls.replaceBinding(CoolUtil.parseControlString(ctrl), Keys, FlxKey.fromString(bind), FlxKey.fromString(bindDefault));
+		}
+
 		if (initialized)
 			skipIntro();
 		else
@@ -337,8 +348,8 @@ class TitleState extends MusicBeatState
 
 		switch (curBeat)
 		{
-			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+			case 2:
+				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilskater']);
 			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');
@@ -363,23 +374,18 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
 			case 9:
-				createCoolText([curWacky[0]]);
-			// credTextShit.visible = true;
+				createCoolText(["custom build by"]);
 			case 11:
-				addMoreText(curWacky[1]);
-			// credTextShit.text += '\nlmao';
+				addMoreText("skipsqueak");
 			case 12:
 				deleteCoolText();
-			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
-			// credTextShit.screenCenter();
-			case 13:
+			case 13: //13
 				addMoreText('Friday');
 			// credTextShit.visible = true;
-			case 14:
+			case 14: //14
 				addMoreText('Night');
 			// credTextShit.text += '\nNight';
-			case 15:
+			case 15://15
 				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
 
 			case 16:
