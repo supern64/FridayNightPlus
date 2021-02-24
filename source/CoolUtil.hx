@@ -76,8 +76,28 @@ class CoolUtil
 		var stringA:Array<String> = Assets.getText("assets/data/gameFlag.txt").trim().split('\n');
 		for (i in stringA) {
 			var fSplit = i.split(":");
-			map[fSplit[0]] = fSplit[1];
+			map[fSplit[0].trim()] = fSplit[1].trim();
 		}
 		return map;
+	}
+
+	public static function loadGameFlagOrdered():OrderedMap<String, String>
+	{
+		var map:OrderedMap<String, String> = new OrderedMap<String, String>();
+		var stringA:Array<String> = Assets.getText("assets/data/gameFlag.txt").trim().split('\n');
+		for (i in stringA) {
+			var fSplit = i.split(":");
+			map.set(fSplit[0].trim(), fSplit[1].trim());
+		}
+		return map;
+	}
+
+	public static function exportGameFlag(map:OrderedMap<String, String>):String
+	{
+		var finalString:String = "";
+		for (flag => setting in map) {
+			finalString += flag + ":" + setting + "\n";
+		}
+		return finalString;
 	}
 }

@@ -46,7 +46,7 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		Polymod.init({modRoot: "mods", dirs: CoolUtil.coolTextFile("mods/modList.txt")});
 
 		#if (!web)
 		TitleState.soundExt = '.ogg';
@@ -210,6 +210,10 @@ class TitleState extends MusicBeatState
 			PlayerSettings.player1.controls.replaceBinding(CoolUtil.parseControlString(ctrl), Keys, FlxKey.fromString(bind), FlxKey.fromString(bindDefault));
 		}
 
+		trace("Game flags:");
+		for (flag => value in CoolUtil.loadGameFlag())
+			trace(flag + ": " + value);
+		
 		if (initialized)
 			skipIntro();
 		else
@@ -285,19 +289,7 @@ class TitleState extends MusicBeatState
 
 				var version:String = "v" + Application.current.meta.get('version');
 
-				if (version.trim() != NGio.GAME_VER_NUMS.trim() && !OutdatedSubState.leftState)
-				{
-					trace('OLD VERSION!');
-					trace('old ver');
-					trace(version.trim());
-					trace('cur ver');
-					trace(NGio.GAME_VER_NUMS.trim());
-					FlxG.switchState(new OutdatedSubState());
-				}
-				else
-				{
-					FlxG.switchState(new MainMenuState());
-				}
+				FlxG.switchState(new MainMenuState());
 			});
 			// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
 		}

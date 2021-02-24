@@ -41,7 +41,7 @@ class OptionsMenu extends MusicBeatState
 		grpControls = new FlxTypedGroup<Alphabet>();
 		add(grpControls);
 
-		options = ["controls", "video", "go back"];
+		options = ["game", "controls", "video", "go back"];
 
 		var y:Int = 0;
 		for (i in options) {
@@ -66,6 +66,8 @@ class OptionsMenu extends MusicBeatState
 				var daChoice:String = options[curSelected];
 				switch (daChoice)
 				{
+					case 'game':
+						FlxG.switchState(new GameFlagMenu());
 					case 'controls':
 						FlxG.switchState(new ControlsMenu());
 					case 'video':
