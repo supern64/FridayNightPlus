@@ -1,0 +1,10 @@
+noHurt:false
+useGitarooPause:false
+despawnGF:false
+despawnDad:false
+despawnBF:false
+hideCombo:false
+hidePlayerIcon:false
+hideHealthBar:false
+showAccuracy:true
+accuracyPercentType:score
