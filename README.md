@@ -1,14 +1,16 @@
-# Friday Night Funkin
+# Friday Night Funkin+
 
-This is the repository for Friday Night Funkin, a game originally made for Ludum Dare 47 "Stuck In a Loop".
+This is the repository for Friday Night Funkin+, a modification of Friday Night Funkin' which adds several features, such as...
 
-Play the Ludum Dare prototype here: https://ninja-muffin24.itch.io/friday-night-funkin
-Play the Newgrounds one here: https://www.newgrounds.com/portal/view/770371
-Support the project on the itch.io page: https://ninja-muffin24.itch.io/funkin
+- Control rebinding
+- Extra GUI options (accuracy, combo)
+- Game and graphics options (NoHurt, no combo counter, etc.)
 
-## Credits / shoutouts
+PLEASE **PLEASE** GO SUPPORT THE ORIGINAL CREATORS. I DID NOT MAKE THIS GAME IN ANY WAY, SHAPE, OR FORM.
 
-- [ninjamuffin99 (me!)](https://twitter.com/ninja_muffin99) - Programmer
+## Original creators
+
+- [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 
@@ -34,6 +36,8 @@ Other installations you'd need is the additional libraries, a fully updated list
 ```
 hscript
 flixel-ui
+extypes
+flixel-addons
 newgrounds
 ```
 
@@ -43,24 +47,6 @@ You'll also need to install polymod. Do this with
 
 ```
 haxelib git polymod https://github.com/larsiusprime/polymod.git
-```
-
-### Ignored files
-
-I gitignore the API keys for the game, so that no one can nab them and post fake highscores on the leaderboards. But because of that the game
-doesn't compile without it.
-
-Just make a file in `/source` and call it `APIStuff.hx`, and copy paste this into it
-
-```haxe
-package;
-
-class APIStuff
-{
-	public static var API:String = "";
-	public static var EncKey:String = "";
-}
-
 ```
 
 and you should be good to go there.
