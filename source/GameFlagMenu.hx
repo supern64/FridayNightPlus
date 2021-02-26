@@ -83,7 +83,8 @@ class GameFlagMenu extends MusicBeatState
 			"hidePlayerIcon" => "boolean",
 			"hideHealthBar" => "boolean",
 			"showAccuracy" => "boolean",
-			"accuracyPercentType" => "accType"
+			"accuracyPercentType" => "accType",
+			"staticOpponent" => "character"
 		];
 		return toggleType[flag];
 	}
@@ -99,6 +100,8 @@ class GameFlagMenu extends MusicBeatState
 				var booleanFlag:Array<String> = ["true", "false"];
 				var comboFlag:Array<String> = ["true", "false", "bar"];
 				var accTypeFlag:Array<String> = ["hit", "score"];
+				var characterType:Array<String> = CoolUtil.coolTextFile("assets/data/characterList.txt");
+				characterType.insert(0, "false");
 
 				var newFlagIndex:Int = 0;
 				var type:String = getToggleType(flag);
@@ -112,6 +115,8 @@ class GameFlagMenu extends MusicBeatState
 						flagOptions = comboFlag;
 					case "accType":
 						flagOptions = accTypeFlag;
+					case "character":
+						flagOptions = characterType;
 				}
 
 				newFlagIndex = flagOptions.indexOf(setting) + 1;

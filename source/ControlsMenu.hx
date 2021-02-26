@@ -14,6 +14,8 @@ import lime.utils.Assets;
 import sys.io.File;
 import extype.OrderedMap;
 
+using StringTools;
+
 class ControlsMenu extends MusicBeatState
 {
 	var selector:FlxText;
@@ -82,18 +84,10 @@ class ControlsMenu extends MusicBeatState
 	{
 		if (FlxG.keys.getIsDown().length > 0)
 		{
-			/* for (i in grpControls.iterator()) { // generating array of control names
-				var y:Int = 0;
-				var funnyArray:Array<String> = i.text.split(": ");
-				var ctrl:String = funnyArray[0];
-				var bind:String = funnyArray[1];
-				controlOrder[y] = ctrl;
-				y++;
-			} */
 			for (a in grpControls.iterator()) {
 				var funnyArray:Array<String> = a.text.split(": ");
 				var ctrl:String = funnyArray[0];
-				var bind:String = funnyArray[1];
+				var bind:String = funnyArray[1].replace(" (waiting)", "");
 
 				if (a.targetY == 0) {
 					trace(CoolUtil.parseControlString(ctrl) + " is now bound to " + FlxG.keys.getIsDown()[0].ID);
@@ -118,6 +112,15 @@ class ControlsMenu extends MusicBeatState
 		{
 			isSettingControl = true;
 			timeOfKeyBindN = past;
+
+			for (a in grpControls.iterator()) {
+				if (a.targetY == 0) {
+					var controlLabel:Alphabet = new Alphabet(0, 0, a.text + " (waiting)", true, false);
+					controlLabel.isMenuItem = true;
+					controlLabel.targetY = 0;
+					grpControls.replace(a, controlLabel);
+				}
+			}
 		}
 	}
 

@@ -539,14 +539,21 @@ class PlayState extends MusicBeatState
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
-		
-		dad = new Character(100, 100, SONG.player2);
+		var player2:String = SONG.player2;
+
+		if (flags["staticOpponent"] != "false") {
+			player2 = flags["staticOpponent"];
+		}
+		dad = new Character(100, 100, player2);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
-		switch (SONG.player2)
+		switch (player2)
 		{
-			case 'gf':
+			case 'bf':
+				dad.y += 200;
+				dad.x += 200;
+			case 'gf' | 'gf-christmas':
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
 				if (isStoryMode)
@@ -554,7 +561,6 @@ class PlayState extends MusicBeatState
 					camPos.x += 600;
 					tweenCamIn();
 				}
-
 			case "spooky":
 				dad.y += 200;
 			case "monster":
@@ -707,7 +713,7 @@ class PlayState extends MusicBeatState
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
-		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2 = new HealthIcon(player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 		add(scoreTxt);

@@ -3,6 +3,7 @@ useGitarooPause:false
 despawnGF:false
 despawnDad:false
 despawnBF:false
+staticOpponent:false
 hideCombo:false
 hidePlayerIcon:false
 hideHealthBar:false
